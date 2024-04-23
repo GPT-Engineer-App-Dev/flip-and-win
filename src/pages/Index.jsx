@@ -10,11 +10,26 @@ const Index = () => {
     initialBoard[4][4] = 'W';
     return initialBoard;
   });
+  const [currentPlayer, setCurrentPlayer] = useState('B');
   const cellBg = useColorModeValue('gray.200', 'gray.700');
 
   const handleCellClick = (row, col) => {
-    // Placeholder for game logic
-    console.log(`Cell clicked: ${row}, ${col}`);
+    if (!board[row][col] && isValidMove(row, col, currentPlayer)) {
+      const newBoard = [...board.map(row => [...row])];
+      newBoard[row][col] = currentPlayer;
+      flipDiscs(newBoard, row, col, currentPlayer);
+      setBoard(newBoard);
+      setCurrentPlayer(currentPlayer === 'B' ? 'W' : 'B');
+    }
+  };
+
+  const isValidMove = (row, col, player) => {
+    // Placeholder for valid move checking logic
+    return true; // Temporarily return true for all moves
+  };
+
+  const flipDiscs = (board, row, col, player) => {
+    // Placeholder for disc flipping logic
   };
 
   return (
