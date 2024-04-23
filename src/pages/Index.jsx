@@ -20,6 +20,24 @@ const Index = () => {
       flipDiscs(newBoard, row, col, currentPlayer);
       setBoard(newBoard);
       setCurrentPlayer(currentPlayer === 'B' ? 'W' : 'B');
+      if (currentPlayer === 'W') {
+        setTimeout(aiMove, 500); // AI makes a move after 500ms
+      }
+    }
+  };
+
+  const aiMove = () => {
+    const validMoves = [];
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        if (isValidMove(i, j, currentPlayer)) {
+          validMoves.push([i, j]);
+        }
+      }
+    }
+    if (validMoves.length > 0) {
+      const [row, col] = validMoves[Math.floor(Math.random() * validMoves.length)];
+      handleCellClick(row, col);
     }
   };
 
@@ -72,7 +90,17 @@ const Index = () => {
   return (
     <Flex direction="column" align="center" justify="center" minH="100vh">
       <Box mb={4}>
-        <Button colorScheme="blue">New Game</Button>
+        <Button colorScheme="blue" onClick={() => {
+          setBoard(() => {
+            const initialBoard = Array(8).fill(null).map(() => Array(8).fill(null));
+            initialBoard[3][3] = 'W';
+            initialBoard[3][4] = 'B';
+            initialBoard[4][3] = 'B';
+            initialBoard[4][4] = 'W';
+            return initialBoard;
+          });
+          setCurrentPlayer('B');
+        }}>New Game</Button>
       </Box>
       <Grid templateColumns="repeat(8, 1fr)" gap={1}>
         {board.map((row, rowIndex) =>
