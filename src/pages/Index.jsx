@@ -24,12 +24,49 @@ const Index = () => {
   };
 
   const isValidMove = (row, col, player) => {
-    // Placeholder for valid move checking logic
-    return true; // Temporarily return true for all moves
+    if (board[row][col]) return false; // Check if the cell is already occupied
+    let valid = false;
+    const opponent = player === 'B' ? 'W' : 'B';
+    const directions = [
+      [0, 1], [1, 1], [1, 0], [1, -1],
+      [0, -1], [-1, -1], [-1, 0], [-1, 1]
+    ];
+    directions.forEach(([dx, dy]) => {
+      let x = row + dx;
+      let y = col + dy;
+      let path = false;
+      while (x >= 0 && x < 8 && y >= 0 && y < 8 && board[x][y] === opponent) {
+        path = true;
+        x += dx;
+        y += dy;
+      }
+      if (path && x >= 0 && x < 8 && y >= 0 && y < 8 && board[x][y] === player) {
+        valid = true;
+      }
+    });
+    return valid;
   };
 
   const flipDiscs = (board, row, col, player) => {
-    // Placeholder for disc flipping logic
+    const directions = [
+      [0, 1], [1, 1], [1, 0], [1, -1],
+      [0, -1], [-1, -1], [-1, 0], [-1, 1]
+    ];
+    directions.forEach(([dx, dy]) => {
+      let x = row + dx;
+      let y = col + dy;
+      let path = [];
+      while (x >= 0 && x < 8 && y >= 0 && y < 8 && board[x][y] && board[x][y] !== player) {
+        path.push([x, y]);
+        x += dx;
+        y += dy;
+      }
+      if (x >= 0 && x < 8 && y >= 0 && y < 8 && board[x][y] === player) {
+        path.forEach(([px, py]) => {
+          board[px][py] = player;
+        });
+      }
+    });
   };
 
   return (
