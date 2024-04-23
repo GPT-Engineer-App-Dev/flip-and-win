@@ -2,7 +2,14 @@ import { Box, Button, Flex, Grid, useColorModeValue } from '@chakra-ui/react';
 import { useState } from 'react';
 
 const Index = () => {
-  const [board, setBoard] = useState(Array(8).fill(Array(8).fill(null)));
+  const [board, setBoard] = useState(() => {
+    const initialBoard = Array(8).fill(null).map(() => Array(8).fill(null));
+    initialBoard[3][3] = 'W';
+    initialBoard[3][4] = 'B';
+    initialBoard[4][3] = 'B';
+    initialBoard[4][4] = 'W';
+    return initialBoard;
+  });
   const cellBg = useColorModeValue('gray.200', 'gray.700');
 
   const handleCellClick = (row, col) => {
@@ -22,7 +29,8 @@ const Index = () => {
               key={`${rowIndex}-${colIndex}`}
               w="40px"
               h="40px"
-              bg={cellBg}
+              bg={cell === 'B' ? 'black' : cell === 'W' ? 'white' : cellBg}
+              border={cell ? '2px solid' : 'none'}
               onClick={() => handleCellClick(rowIndex, colIndex)}
             />
           ))
