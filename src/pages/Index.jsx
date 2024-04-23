@@ -1,15 +1,35 @@
-// Complete the Index page component here
-// Use chakra-ui
-import { Button } from "@chakra-ui/react"; // example
-import { FaPlus } from "react-icons/fa"; // example - use react-icons/fa for icons
+import { Box, Button, Flex, Grid, useColorModeValue } from '@chakra-ui/react';
+import { useState } from 'react';
 
 const Index = () => {
-  // TODO: Create the website here!
+  const [board, setBoard] = useState(Array(8).fill(Array(8).fill(null)));
+  const cellBg = useColorModeValue('gray.200', 'gray.700');
+
+  const handleCellClick = (row, col) => {
+    // Placeholder for game logic
+    console.log(`Cell clicked: ${row}, ${col}`);
+  };
+
   return (
-    <Button>
-      Hello world! <FaPlus />
-    </Button>
-  ); // example
+    <Flex direction="column" align="center" justify="center" minH="100vh">
+      <Box mb={4}>
+        <Button colorScheme="blue">New Game</Button>
+      </Box>
+      <Grid templateColumns="repeat(8, 1fr)" gap={1}>
+        {board.map((row, rowIndex) =>
+          row.map((cell, colIndex) => (
+            <Box
+              key={`${rowIndex}-${colIndex}`}
+              w="40px"
+              h="40px"
+              bg={cellBg}
+              onClick={() => handleCellClick(rowIndex, colIndex)}
+            />
+          ))
+        )}
+      </Grid>
+    </Flex>
+  );
 };
 
 export default Index;
